@@ -7,14 +7,15 @@
       "-std=c99",
       "-O2",
       "-Iinclude",
+      "-fPIC",
       "-c",
       "-o",
-      "deps/object/example.o",
-      "src/example.c"
+      "deps/object/libink_window.o",
+      "src/libink_window.c"
     ],
     "directory": "/home/ruka/develop/cgt",
-    "file": "/home/ruka/develop/cgt/src/example.c",
-    "output": "/home/ruka/develop/cgt/deps/object/example.o"
+    "file": "/home/ruka/develop/cgt/src/libink_window.c",
+    "output": "/home/ruka/develop/cgt/deps/object/libink_window.o"
   },
   {
     "arguments": [
@@ -26,11 +27,11 @@
       "-Iinclude",
       "-c",
       "-o",
-      "deps/object/window.o",
-      "src/window.c"
+      "deps/object/example_example.o",
+      "example/example.c"
     ],
     "directory": "/home/ruka/develop/cgt",
-    "file": "/home/ruka/develop/cgt/src/window.c",
-    "output": "/home/ruka/develop/cgt/deps/object/window.o"
+    "file": "/home/ruka/develop/cgt/example/example.c",
+    "output": "/home/ruka/develop/cgt/deps/object/example_example.o"
   }
 ]

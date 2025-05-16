@@ -9,6 +9,7 @@
 ink_window_t i_create_window(int x, int y, int width, int height) {
   ink_window_t window;
 
+  window.close = NULL;
   window.display = XOpenDisplay(NULL);
   if (window.display == NULL) {
     fprintf(stderr, "inkX: Unable to connect Xserver\n");
