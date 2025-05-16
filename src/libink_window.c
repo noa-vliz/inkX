@@ -6,10 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-ink_window_t i_create_window(int x, int y, int width, int height) {
+ink_window_t i_create_window(int x, int y, int width, int height,
+                             const char *title) {
   ink_window_t window;
 
   window.close = NULL;
+  window.close_window = 1;
+
   window.display = XOpenDisplay(NULL);
   if (window.display == NULL) {
     fprintf(stderr, "inkX: Unable to connect Xserver\n");
@@ -31,7 +34,24 @@ ink_window_t i_create_window(int x, int y, int width, int height) {
                ExposureMask | KeyPressMask | StructureNotifyMask);
   XMapWindow(window.display, window.window);
 
+  XStoreName(window.display, window.window, title);
+
   return window;
+}
+
+void i_close_window(ink_run_window_t *ink_window) {
+  XEvent close_event;
+
+  close_event.type = ClientMessage;
+  close_event.xclient.window = ink_window->window.window;
+  close_event.xclient.message_type = ink_window->window.wm_delete_window;
+  close_event.xclient.format = 32;
+  close_event.xclient.data.l[0] = ink_window->window.wm_delete_window;
+  close_event.xclient.data.l[1] = CurrentTime;
+
+  XSendEvent(ink_window->window.display, ink_window->window.window, False,
+             NoEventMask, &close_event);
+  XFlush(ink_window->window.display);
 }
 
 void draw() {}
@@ -51,17 +71,18 @@ void *window_main_loop(void *arg) {
       break;
 
     case KeyPress:
-      printf("inkX: key pressed\n");
       break;
 
     case ClientMessage:
       if (iwindow.event.xclient.data.l[0] == (long)iwindow.wm_delete_window) {
-        printf("inkX: Window close\n");
-        if (iwindow.close != NULL) {
-          iwindow.close();
-        }
+        if (iwindow.close_window) {
+          printf("inkX - Window close\n");
+          if (iwindow.close != NULL) {
+            iwindow.close();
+          }
 
-        run->running = 0;
+          run->running = 0;
+        }
         break;
       }
       break;

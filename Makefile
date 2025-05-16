@@ -1,6 +1,6 @@
 # Compiler and flags settings
-CC     := clang
-CFLAGS := -Wall -Wextra -std=c99 -O2 -Iinclude
+CC     := gcc
+CFLAGS := -Wall -Wextra -std=c99 -O2 -Iinclude -g
 LDLIBS := -lX11
 
 # Directory settings
