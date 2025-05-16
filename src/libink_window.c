@@ -25,7 +25,9 @@ ink_window_t i_create_window(int x, int y, int width, int height) {
   window.wm_delete_window =
       XInternAtom(window.display, "WM_DELETE_WINDOW", False);
 
-  XSelectInput(window.display, window.window, ExposureMask | KeyPressMask);
+  XSetWMProtocols(window.display, window.window, &window.wm_delete_window, 1);
+  XSelectInput(window.display, window.window,
+               ExposureMask | KeyPressMask | StructureNotifyMask);
   XMapWindow(window.display, window.window);
 
   return window;
