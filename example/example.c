@@ -7,16 +7,15 @@ void close_func(void) {
 }
 
 int main() {
-  /* Set up a new X11 GUI */
+  /* Create a window at (400, 400) with size 200x200 */
   ink_window_t window1 = i_create_window(400, 400, 200, 200);
 
-  /* Add termination processing */
+  /* Set the close event handler */
   window1.close = close_func;
 
-  /* Without this the GUI won't appear */
+  /* Start the event loop (required for GUI to appear) */
   i_create_new_loop(&window1);
 
-  /* If you want the GUI to remain visible even after the main function has
-   * finished, run this before exiting. */
+  /* Optionally, keep the GUI after main exits */
   i_exit_main();
 }
