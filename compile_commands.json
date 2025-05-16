@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-std=c99",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "deps/object/example.o",
+      "src/example.c"
+    ],
+    "directory": "/home/ruka/develop/cgt",
+    "file": "/home/ruka/develop/cgt/src/example.c",
+    "output": "/home/ruka/develop/cgt/deps/object/example.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-Wall",
+      "-Wextra",
+      "-std=c99",
+      "-O2",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "deps/object/window.o",
+      "src/window.c"
+    ],
+    "directory": "/home/ruka/develop/cgt",
+    "file": "/home/ruka/develop/cgt/src/window.c",
+    "output": "/home/ruka/develop/cgt/deps/object/window.o"
+  }
+]
