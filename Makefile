@@ -14,6 +14,8 @@ BINDIR     := bin
 LIBNAME    := libinkX
 STATIC_LIB := $(LIBDIR)/$(LIBNAME).a
 SHARED_LIB := $(LIBDIR)/$(LIBNAME).so
+INCLUDE_DIR:= include/
+INCLUDE    := $(INCLUDE_DIR)libinkX.h
 
 # Auto-detect source files (exclude any example files that might be in src)
 LIB_SOURCES := $(filter-out %/example.c,$(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/*/*.c))
@@ -48,41 +50,36 @@ examples: $(EXAMPLE_TARGETS)
 # Create static library
 $(STATIC_LIB): $(LIB_OBJECTS)
 	@mkdir -p $(LIBDIR)
-	@echo "Creating static library: $@"
 	ar rcs $@ $^
 	ranlib $@
 
 # Create shared library
 $(SHARED_LIB): $(LIB_OBJECTS)
 	@mkdir -p $(LIBDIR)
-	@echo "Creating shared library: $@"
 	$(CC) -shared $^ -o $@ $(LDLIBS)
 
 # Create object files from library sources with -fPIC (for both static and shared libraries)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "Compiling $< to $@"
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
 # Create object files from example sources (no -fPIC needed for executables)
 $(OBJDIR)/example_%.o: $(EXAMPLEDIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "Compiling example $< to $@"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Create example executables
 $(BINDIR)/%: $(OBJDIR)/example_%.o $(STATIC_LIB)
 	@mkdir -p $(BINDIR)
-	@echo "Building example: $@"
 	$(CC) $< -L$(LIBDIR) -linkX $(LDLIBS) -o $@
 
 # Install to system (optional)
 install: $(STATIC_LIB) $(SHARED_LIB)
 	@echo "Installing libraries to /usr/local/lib..."
-	@sudo cp $(STATIC_LIB) /usr/local/lib/
-	@sudo cp $(SHARED_LIB) /usr/local/lib/
+	sudo cp $(STATIC_LIB) /usr/local/lib/
+	sudo cp $(SHARED_LIB) /usr/local/lib/
 	@echo "Installing headers to /usr/local/include..."
-	@sudo cp -r include/* /usr/local/include/
+	sudo cp -r $(INCLUDE) /usr/local/include/
 	@echo "Updating linker cache..."
 	@sudo ldconfig
 
