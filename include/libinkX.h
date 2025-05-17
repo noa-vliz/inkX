@@ -2,6 +2,10 @@
 #define __LIB_INK_X
 #include <X11/Xlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
   Display *display;
   Window window;
@@ -34,5 +38,9 @@ void i_close_window(ink_run_window_t *ink_window);
 
 /* Optionally, keep the GUI after main exits */
 void i_exit_main();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __LIB_INK_X */
